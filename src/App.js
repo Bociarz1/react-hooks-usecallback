@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import ShowResults from "./components/ShowResults";
+import Button from "./components/Button";
+import { useCallback, useState } from "react";
 
 function App() {
+  console.log("render App")
+  const [money,setMoney] = useState(1000)
+  const [points, setPoints] = useState(0)
+
+  // 2. wrap functions with useCallback to prevent create new reference of the function after parent rerender
+ const increaseMoney = useCallback(()=> {
+  setMoney(money+100)
+ },[money])
+
+ const increasePoints = useCallback(()=> {
+  setPoints(points+1)
+ },[points])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ShowResults type="money" value={money}/>
+      <Button type="money"increase={increaseMoney}/><br/>
+      <ShowResults type="points" value={points}/>
+      <Button type="points" increase={increasePoints}/>
+    </>
   );
 }
 
